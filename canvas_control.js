@@ -4,6 +4,9 @@ var brushSize = 2;
 var selectedImage = "Cherry_Aerial";
 var imgDict = {};
 var outlineGrey = "#ebebeb"
+var GRIDCOLUMNS = 112;
+var GRIDROWS = 96;
+
 
 // old greens "#1dff05","#14b204", "#2a4a27",
 var colorBar =  ["#90ff84", "#2fe276", "#129a48",
@@ -30,6 +33,7 @@ function draw() {
   populateImgDict();
   if (canvas.getContext) {
     var ctx = canvas.getContext('2d');
+    drawIsland(ctx)
     drawGrid(ctx)
     //drawTestImages(ctx)
     drawColorBar()
@@ -81,11 +85,13 @@ var drawImage = function (xPos, yPos, url) {
   }
 }
 
+
+
 function drawGrid(ctx) {
   ctx.lineWidth = 1;
   ctx.strokeStyle = outlineGrey;
-  for (var i = 0; i < 112; i++){ 
-    for (var j=0; j < 96; j++){
+  for (var i = 0; i < GRIDCOLUMNS; i++){ 
+    for (var j=0; j < GRIDROWS; j++){
       ctx.beginPath();
       var xPos = res * i;
       var yPos = res * j;
@@ -142,7 +148,7 @@ function mouseMoveFunction(event){
 function drawColorBar(){
   var canvas = document.getElementById('color_bar');
   var ctx = canvas.getContext('2d');
-  ctx.lineWidth = 1;
+  //ctx.lineWidth = 1;
   // always 3 wide
   for (var i = 0; i < (colorBar.length / 3); i++){ 
     for (var j = 0; j < 3; j++){
@@ -189,48 +195,35 @@ function setupSpriteListeners(){
   }
 }
 
-function drawTestImages(ctx){
-  // houses
-  var img = document.getElementById("house");
-  ctx.drawImage(img, 8 * res, 8 * res);
-  var img = document.getElementById("house");
-  ctx.drawImage(img, 13 * res, 8 * res);
-
-  // trees
-  var img = document.getElementById("spruce");
-  ctx.drawImage(img, 20 * res, 20 * res);
-  var img = document.getElementById("spruce_pat");
-  ctx.drawImage(img, 20 * res, 17 * res);
-  var img = document.getElementById("spruce_pat");
-  ctx.drawImage(img, 22 * res, 17 * res);
-  var img = document.getElementById("spruce_pat");
-  ctx.drawImage(img, 24 * res, 17 * res);
-  var img = document.getElementById("spruce_pat");
-  ctx.drawImage(img, 21 * res, 16 * res);
-
-
-  var img = document.getElementById("cherry");
-  ctx.drawImage(img, 40 * res, 20 * res);
-  var img = document.getElementById("bridge");
-  ctx.drawImage(img, 50 * res, 1 * res);
-  var img = document.getElementById("mus");
-  ctx.drawImage(img, 45 * res, 35 * res);
-  var img = document.getElementById("fence");
-  ctx.drawImage(img, 55 * res, 17 * res);
-  var img = document.getElementById("fence");
-  ctx.drawImage(img, 56 * res, 17 * res);
-  var img = document.getElementById("fence");
-  ctx.drawImage(img, 57 * res, 17 * res);
-  var img = document.getElementById("fence");
-  ctx.drawImage(img, 55 * res, 18 * res);
-  var img = document.getElementById("flower");
-  ctx.drawImage(img, 60 * res, 16 * res);
-  var img = document.getElementById("rock");
-  ctx.drawImage(img, 65 * res, 16 * res);
+function download(){
+  var download = document.getElementById("download");
+  var image = document.getElementById("map_frame").toDataURL("image/png")
+              .replace("image/png", "image/octet-stream");
+  download.setAttribute("href", image);
 
 }
 
+function drawIsland(ctx){
+  // draw water
+  ctx.fillStyle = "#20b2aa";
+  ctx.beginPath();
+  ctx.fillRect(0, 0, GRIDCOLUMNS * res, GRIDROWS * res);
 
+  // draw sand
+  ctx.fillStyle = "#d2b48c";
+  ctx.beginPath();
+  ctx.fillRect(8 * res, 8 * res, (GRIDCOLUMNS - 16) * res, (GRIDROWS - 16) * res);
+
+  // draw grass
+  ctx.fillStyle = "#129a48";
+  ctx.beginPath();
+  ctx.fillRect(12 * res, 12 * res,  (GRIDCOLUMNS - 24) * res, (GRIDROWS - 24) * res);
+  
+  // draw rock
+  ctx.fillStyle = "#808080";
+  ctx.beginPath();
+  ctx.fillRect(10 * res, 8 * res, (GRIDCOLUMNS - 20) * res, 4 * res);
+}
 
 function populateImgDict(){
   //imgDict[""] = ""
