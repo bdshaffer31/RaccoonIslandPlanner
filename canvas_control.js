@@ -6,6 +6,9 @@ var imgDict = {};
 var outlineGrey = "#ebebeb"
 var GRIDCOLUMNS = 112;
 var GRIDROWS = 96;
+var gridOn = true;
+var pixelArray = [];
+var spriteArray = new Array(10752)
 
 
 // old greens "#1dff05","#14b204", "#2a4a27",
@@ -33,10 +36,11 @@ function draw() {
   populateImgDict();
   if (canvas.getContext) {
     var ctx = canvas.getContext('2d');
-    drawIsland(ctx)
-    drawGrid(ctx)
+    drawIsland();
+    //drawGrid(ctx)
+    drawPixelArray(pixelArray);
     //drawTestImages(ctx)
-    drawColorBar()
+    drawColorBar();
   }
 }
 
@@ -50,6 +54,36 @@ function showCoords(event) {
   document.getElementById("grid_num").innerHTML = coords;
 }
 
+function drawPixelArray(pixelArray){
+  for (var j = 0; j < GRIDROWS; j++){
+    for(var i = 0; i < GRIDCOLUMNS; i++){
+      drawColor(i, j, pixelArray[j * GRIDCOLUMNS + i])
+    }
+  }
+}
+
+function drawSpriteArray(spriteArray){
+  for (var y = 0; y < GRIDROWS; y++){
+    for(var x = 0; x < GRIDCOLUMNS; x++){
+      index = y * GRIDCOLUMNS + x
+      if (spriteArray[index] === undefined){
+      } else{
+        console.log(spriteArray[index])
+        drawImage(x, y, spriteArray[index])
+      }
+    }
+  }
+}
+
+function paintColor(xPos, yPos, color){
+  for (var i = 0; i < brushSize; i++){
+    for (var j = 0; j < brushSize; j++){
+        drawColor(xPos + i, yPos + j, color)
+        pixelArray[(xPos + j) + ((yPos + i) * GRIDCOLUMNS)] = color
+    }
+  }
+}
+
 function drawColor(xPos, yPos, color) {
   var canvas = document.getElementById('map_frame');
   if (canvas.getContext) {
@@ -59,55 +93,31 @@ function drawColor(xPos, yPos, color) {
     ctx.beginPath();
     var xPos = res * xPos;
     var yPos = res * yPos;
-    ctx.fillRect(xPos, yPos, brushSize * res, brushSize * res);
-
-    for (var i = 0; i < brushSize; i++){
-      for (var j = 0; j < brushSize; j++){
-        ctx.beginPath();
-        ctx.strokeStyle = outlineGrey;
-        ctx.rect(xPos + res * i, yPos + res * j, res, res);
-        ctx.stroke();
-      }
+    ctx.fillRect(xPos, yPos, res, res);
+    // draw the grid squares if the grid is on
+    if (gridOn){
+      ctx.beginPath();
+      ctx.strokeStyle = outlineGrey;
+      ctx.rect(xPos, yPos, res, res);
+      ctx.stroke();
     }
-    
   }
 }
 
-var drawImage = function (xPos, yPos, url) {
+function placeImage (xPos, yPos, url) {
+  spriteArray[xPos + yPos * GRIDCOLUMNS] = url
+  drawImage(xPos, yPos, url)
+}
+
+
+function drawImage (xPos, yPos, url) {
   var canvas = document.getElementById('map_frame');
   if (canvas.getContext) {
     var ctx = canvas.getContext('2d');
     var img = new Image();
     img.src = url
     img.onload = function () { 
-      ctx.drawImage(img, xPos, yPos);
-    }
-  }
-}
-
-
-
-function drawGrid(ctx) {
-  ctx.lineWidth = 1;
-  ctx.strokeStyle = outlineGrey;
-  for (var i = 0; i < GRIDCOLUMNS; i++){ 
-    for (var j=0; j < GRIDROWS; j++){
-      ctx.beginPath();
-      var xPos = res * i;
-      var yPos = res * j;
-      ctx.rect(xPos, yPos, res, res);
-      ctx.stroke();
-    }
-  }
-  ctx.lineWidth = 2;
-  ctx.strokeStyle = "#808080";
-  for (var i = 0; i < 7; i++){
-    for (var j = 0; j < 6; j++){
-      ctx.beginPath();
-      var xPos = res * 16 * i;
-      var yPos = res * 16 * j;
-      ctx.rect(xPos, yPos, res * 16, res * 16);
-      ctx.stroke();
+      ctx.drawImage(img, xPos * res, yPos * res);
     }
   }
 }
@@ -117,7 +127,7 @@ function setupListeners(canvas){
     console.log(event.which)
     if (event.which == 1) {
       var gridVals = relativeGridPos(event)
-      drawColor(gridVals["x"], gridVals["y"], brushColor)
+      paintColor(gridVals["x"], gridVals["y"], brushColor)
       this.addEventListener("mousemove", mouseMoveFunction);
     } else if (event.which == 3){
       var gridVals = relativeGridPos(event)
@@ -125,7 +135,7 @@ function setupListeners(canvas){
       var ctx = canvas.getContext('2d');
       //var img = document.getElementById(selectedImage);
       //ctx.drawImage(img, gridVals["x"] * res, gridVals["y"] * res);
-      drawImage(gridVals["x"] * res, gridVals["y"] * res, imgDict[selectedImage]);
+      placeImage(gridVals["x"], gridVals["y"], imgDict[selectedImage]);
     }
 
   });
@@ -141,7 +151,7 @@ function mouseMoveFunction(event){
     var vals = relativeGridPos(event);
     var coords = "X: " + vals["x"] + ", Y: " + vals["y"];
     //document.getElementById("mouse_pos").innerHTML = coords;
-    drawColor(vals["x"], vals["y"], brushColor)
+    paintColor(vals["x"], vals["y"], brushColor)
   }
 }
 
@@ -200,29 +210,47 @@ function download(){
   var image = document.getElementById("map_frame").toDataURL("image/png")
               .replace("image/png", "image/octet-stream");
   download.setAttribute("href", image);
-
 }
 
-function drawIsland(ctx){
-  // draw water
-  ctx.fillStyle = "#20b2aa";
-  ctx.beginPath();
-  ctx.fillRect(0, 0, GRIDCOLUMNS * res, GRIDROWS * res);
+function toggleGrid(){
+  gridOn = !gridOn
+  drawPixelArray(pixelArray)
+  drawSpriteArray(spriteArray)
+}
 
-  // draw sand
-  ctx.fillStyle = "#d2b48c";
-  ctx.beginPath();
-  ctx.fillRect(8 * res, 8 * res, (GRIDCOLUMNS - 16) * res, (GRIDROWS - 16) * res);
+function resetMap(){
+  // set pixel array to default island shape and draw
+  drawIsland()
+  drawPixelArray(pixelArray)
+  // clear sprite array
+  spriteArray = new Array(10752)
+}
 
-  // draw grass
-  ctx.fillStyle = "#129a48";
-  ctx.beginPath();
-  ctx.fillRect(12 * res, 12 * res,  (GRIDCOLUMNS - 24) * res, (GRIDROWS - 24) * res);
-  
-  // draw rock
-  ctx.fillStyle = "#808080";
-  ctx.beginPath();
-  ctx.fillRect(10 * res, 8 * res, (GRIDCOLUMNS - 20) * res, 4 * res);
+function drawIsland(){
+  for (var i = 0; i < GRIDROWS * GRIDCOLUMNS; i++){
+    pixelArray[i] = "#20b2aa";
+  }
+  for (var y = 0; y < GRIDROWS; y++){
+    for(var x = 0; x < GRIDCOLUMNS; x++){
+      if ((y < GRIDROWS - 8) && (y > 8) && (x < GRIDCOLUMNS - 8) && (x > 8)){
+        pixelArray[y * GRIDCOLUMNS + x] = "#d2b48c";
+      }
+    }
+  }
+  for (var y = 0; y < GRIDROWS; y++){
+    for(var x = 0; x < GRIDCOLUMNS; x++){
+      if ((y < GRIDROWS - 12) && (y > 12) && (x < GRIDCOLUMNS - 12) && (x > 12)){
+        pixelArray[y * GRIDCOLUMNS + x] = "#129a48";
+      }
+    }
+  }
+  for (var y = 0; y < GRIDROWS; y++){
+    for(var x = 0; x < GRIDCOLUMNS; x++){
+      if ((y < 12) && (y > 8) && (x < GRIDCOLUMNS - 10) && (x > 10)){
+        pixelArray[y * GRIDCOLUMNS + x] = "#808080";
+      }
+    }
+  }
 }
 
 function populateImgDict(){
