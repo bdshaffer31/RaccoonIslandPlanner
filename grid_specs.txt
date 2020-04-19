@@ -1,0 +1,5 @@
+grid is 112 x 96 tiles
+comprised of 16 x 16 tiles super grids
+	7 x 6 supergrids
+each tile is 8 x 8 px
+whole canvas is 896 x 768 px

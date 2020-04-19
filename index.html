@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Map Builder</title>
+    <script src='canvas_control.js'></script>
+    <link rel="stylesheet" href="canvas_page.css">
+    <style type="text/css">
+      
+    </style>
+  </head>
+
+  <body onload="draw();" oncontextmenu="return false;">
+    <div class="sidenav" id="left-sidebar">
+      <div class="sidenav-Title">
+        <h2 class="title">Raccoon Island Planner</h2>
+      </div>
+      <div class="sidenav-paint">
+        <div>
+          <div>
+            <canvas id="color_bar" width="72" height="96" onclick="selectColor(event)"></canvas>
+          </div>
+          <div>
+            <span class="sidenav-txt" id="sel_color">-----</span>
+          </div>
+          <div>
+            <span class="sidenav-txt" id="brush_disp">1</span>
+          </div>
+          <div>
+            <button class="brush-btn" id="brush_up" onclick="brushSizeUp(event)">+</button>
+            <button class="brush-btn" id="brush_down" onclick="brushSizeDown(event)">-</button>
+          </div>
+          
+        </div>
+      </div>  
+      <div id ="sel_img" class="sidenav-txt">Cherry_Aerial</div>
+      <div class="sidenav-buttons">
+        <div class="dropdown" id="bridges-drop">
+          <button class="dropbtn">Bridges</button>
+          <div class="dropdown-content">
+            <a class="sprite" id="Bridge_Stone">Bridge_Stone</a>
+          </div>
+        </div>
+        <div class="dropdown" id="buidlings-drop">
+          <button class="dropbtn">Buildings</button>
+          <div class="dropdown-content">
+            <a class="sprite" id="Villager_House_Final">Villager_House_Final</a>
+            <a class="sprite" id="Museum">Museum</a>
+            <a class="sprite" id="Campsite">Campsite</a>
+            <a class="sprite" id="Store">Store</a>
+            <a class="sprite" id="airport">airport</a>
+            <a class="sprite" id="ResidentServ">ResidentServ</a>
+            <a class="sprite" id="Tailor">Tailor</a>
+          </div>
+        </div>
+        <div class="dropdown" id="fences-drop">
+          <button class="dropbtn">Fences</button>
+          <div class="dropdown-content">
+            <a class="sprite" id="Fence_BambooLattice">Fence_BambooLattice</a>
+            <a class="sprite" id="Fence_BarbedWire">Fence_BarbedWire</a>
+            <a class="sprite" id="Fence_Brick">Fence_Brick</a>
+            <a class="sprite" id="Fence_corral">Fence_corral</a>
+            <a class="sprite" id="Fence_Country">Fence_Country</a>
+            <a class="sprite" id="Fence_Imperial">Fence_Imperial</a>
+            <a class="sprite" id="Fence_Iron">Fence_Iron</a>
+            <a class="sprite" id="Fence_IronandStone">Fence_IronandStone</a>
+            <a class="sprite" id="Fence_Lattice">Fence_Lattice</a>
+            <a class="sprite" id="Fence_Rope">Fence_Rope</a>
+            <a class="sprite" id="Fence_SimpleWooden">Fence_SimpleWooden</a>
+            <a class="sprite" id="Fence_Spiky">Fence_Spiky</a>
+            <a class="sprite" id="Fence_Stone">Fence_Stone</a>
+            <a class="sprite" id="Fence_Straw">Fence_Straw</a>
+            <a class="sprite" id="Fence_Vertical Board">Fence_Vertical Board</a>
+            <a class="sprite" id="Fence_Zen">Fence_Zen</a>
+          </div>
+        </div>
+        <div class="dropdown" id="flowers-drop">
+          <button class="dropbtn">Flowers</button>
+          <div class="dropdown-content">
+            <a class="sprite" id="Flower_Red">Flower_Red</a>
+            <a class="sprite" id="Flower_Purple">Flower_Purple</a>
+            <a class="sprite" id="Flower_Yellow">Flower_Yellow</a>
+            <a class="sprite" id="Flower_Pink">Flower_Pink</a>
+          </div>
+        </div>
+        <div class="dropdown" id="inclines-drop">
+          <button class="dropbtn">Inclines</button>
+          <div class="dropdown-content">
+            <a class="sprite" id="incline_generic">incline_generic</a>
+          </div>
+        </div>
+        <div class="dropdown" id="outdoors-drop">
+          <button class="dropbtn">Outdoors</button>
+          <div class="dropdown-content">
+            <a class="sprite" id="Rock">Rock</a>
+            <a class="sprite" id="PicnicTable">PicnicTable</a>
+            <a class="sprite" id="Bench">Bench</a>
+            <a class="sprite" id="stonearch">stonearch</a>
+          </div>      
+        </div>
+        <div class="dropdown" id="trees-drop">
+          <button class="dropbtn">Trees</button>
+          <div class="dropdown-content">
+            <a class="sprite" id="Cherry_Aerial">Cherry_Aerial</a>
+            <a class="sprite" id="Apple_Aerial">Apple_Aerial</a>
+            <a class="sprite" id="Coconut_Aerial">Coconut_Aerial</a>
+            <a class="sprite" id="Orange_Aerial">Orange_Aerial</a>
+            <a class="sprite" id="Peach_Aerial">Peach_Aerial</a>
+            <a class="sprite" id="Pear_Aerial">Pear_Aerial</a>
+            <a class="sprite" id="Hardwood_Aerial">Hardwood_Aerial</a>
+            <a class="sprite" id="Spruce_Aerial">Spruce_Aerial</a>
+            <a class="sprite" id="Spruce_Aerial_Pattern">Spruce_Aerial_Pattern</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="main" id="content">
+      <!--h3 id="coords">coords go here</h3>
+      <h3 id="grid_num">grid num goes here</h3>
+      <h3 id="mouse_pos">mouse pos goes here</h3-->
+      
+      <canvas id="map_frame" width="896 " height="768">
+      </canvas>
+    </div>
+    
+  </body>
+</html>

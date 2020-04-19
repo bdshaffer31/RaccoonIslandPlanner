@@ -1,0 +1,101 @@
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.sidenav {
+  height: 100%; /* Full-height: remove this if you want "auto" height */
+  width: 160px; /* Set the width of the sidebar */
+  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  background-color: #111; /* Black */
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 20px;
+}
+
+.main {
+  /* margin: auto; */
+  margin-left: 160px; /* Same as the width of the sidebar */
+  padding: 0px 10px;
+}
+
+.left {
+  width: 25%;
+}
+
+#map_frame {
+  border: 1px solid black;
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+.title {
+  color: #f1f1f1;
+  margin-left: 30px;
+}
+
+.sidenav-paint {
+  margin-left: 44px;
+}
+
+.brush-btn {
+  background-color: #4CAF50;
+  width: 33px;
+  height: 33px;
+  color: white;
+  padding: 10px;
+  margin-top: 10px;
+  font-size: 16px;
+  border: none;
+}
+
+#sel_img {
+  margin-top: 10px;
+  margin-left: 30px;
+}
+
+.sidenav-txt {
+  color: #f1f1f1;
+  margin-left: 20px;
+}
+
+.dropbtn {
+  background-color: #4CAF50;
+  width: 100px;
+  color: white;
+  padding: 6px;
+  margin-left: 30px;
+  margin-top: 5px;
+  font-size: 16px;
+  border: none;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 6px 8px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
