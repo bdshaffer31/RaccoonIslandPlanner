@@ -1,6 +1,6 @@
 var res = 8; // should be 8 for images to look right
 var brushColor = "#6df6ee";
-var brushSize = 1;
+var brushSize = 2;
 var selectedImage = "Cherry_Aerial";
 var imgDict = {};
 var outlineGrey = "#ebebeb"
