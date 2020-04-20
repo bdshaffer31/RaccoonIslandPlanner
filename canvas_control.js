@@ -9,6 +9,7 @@ var GRIDROWS = 96;
 var gridOn = true;
 var pixelArray = [];
 var spriteArray = new Array(10752)
+activeTool = "paint"
 
 
 // old greens "#1dff05","#14b204", "#2a4a27",
@@ -124,12 +125,11 @@ function drawImage (xPos, yPos, url) {
 
 function setupListeners(canvas){
   canvas.addEventListener("mousedown", function(event){
-    console.log(event.which)
-    if (event.which == 1) {
+    if (activeTool == 'paint') {
       var gridVals = relativeGridPos(event)
       paintColor(gridVals["x"], gridVals["y"], brushColor)
       this.addEventListener("mousemove", mouseMoveFunction);
-    } else if (event.which == 3){
+    } else if (activeTool == 'place'){
       var gridVals = relativeGridPos(event)
       var canvas = document.getElementById('map_frame');
       var ctx = canvas.getContext('2d');
@@ -203,6 +203,11 @@ function setupSpriteListeners(){
   for (var i = 0; i < sprite.length; i++){
     sprite[i].addEventListener("click", setSelectedImage);
   }
+}
+
+function selectTool(toolName){
+  activeTool = toolName
+  document.getElementById("tool-display").innerHTML = toolName;
 }
 
 function download(){

@@ -20,10 +20,17 @@
   /* margin: auto; */
   margin-left: 160px; /* Same as the width of the sidebar */
   padding: 0px 10px;
+  /*background-image: url(images/backgrounds/NFgg7UA.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;*/
 }
 
 .left {
   width: 25%;
+}
+
+#color_bar {
+  margin-top: 15px;
 }
 
 #map_frame {
