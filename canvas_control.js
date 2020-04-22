@@ -38,8 +38,9 @@ function draw() {
   if (canvas.getContext) {
     var ctx = canvas.getContext('2d');
     drawIsland();
-    //drawGrid(ctx)
+    
     drawPixelArray(pixelArray);
+    drawGrid(ctx)
     //drawTestImages(ctx)
     drawColorBar();
   }
@@ -254,6 +255,32 @@ function drawIsland(){
       if ((y < 12) && (y > 8) && (x < GRIDCOLUMNS - 10) && (x > 10)){
         pixelArray[y * GRIDCOLUMNS + x] = "#808080";
       }
+    }
+  }
+}
+
+function drawGrid(ctx) {
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = outlineGrey;
+  for (var i = 0; i < GRIDCOLUMNS; i++){ 
+    for (var j=0; j < GRIDROWS; j++){
+      ctx.beginPath();
+      var xPos = res * i;
+      var yPos = res * j;
+      ctx.rect(xPos, yPos, res, res);
+      ctx.stroke();
+    }
+  }
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = "#808080";
+  for (var i = 0; i < 7; i++){
+    for (var j = 0; j < 6; j++){
+      ctx.beginPath();
+      var xPos = res * 16 * i;
+      var yPos = res * 16 * j;
+      ctx.rect(xPos, yPos, res * 16, res * 16);
+      ctx.stroke();
+      //ctx.drawImage(img, xPos * res, yPos * res);
     }
   }
 }
