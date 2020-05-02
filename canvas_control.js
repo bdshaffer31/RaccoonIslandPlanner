@@ -1,5 +1,5 @@
 var res = 8; // should be 8 for images to look right
-var brushColor = "#6df6ee";
+var brushColor = "#20b2aa";
 var brushSize = 2;
 var selectedImage = "Cherry_Aerial";
 var imgDict = {};
@@ -314,6 +314,21 @@ function drawBigGrid() {
       ctx.stroke();
       //ctx.drawImage(img, xPos * res, yPos * res);
     }
+  }
+  drawGridLabels()
+}
+
+function drawGridLabels() {
+  var canvas = document.getElementById('map_frame');
+  var ctx = canvas.getContext('2d');
+  letterLabels  = ["A", "B", "C", "D", "E", "F"];
+  ctx.fillStyle = "#808080";
+  ctx.font = "30px Arial";
+  for (var i = 0; i < 7; i ++) {
+    ctx.fillText(i+1, i * (res * 16) + (res * 8), 30);
+  }
+  for (var j = 0; j < 6; j++) {
+    ctx.fillText(letterLabels[j], 10, j * (res * 16) + (res * 8) );
   }
 }
 

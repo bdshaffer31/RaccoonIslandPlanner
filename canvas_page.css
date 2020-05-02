@@ -22,8 +22,8 @@
   padding: 0px 10px;
   float: left;
   overflow:scroll;
-  width: 1000px;
-  height: 900px;
+  width: 900px;
+  height: 780px;
   /*background-image: url(images/backgrounds/NFgg7UA.png);
   background-repeat: no-repeat;
   background-size: 100% 100%;*/
@@ -69,7 +69,7 @@
 }
 
 #sel_color{
-  background-color: #6df6ee;
+  background-color: #20b2aa;
 }
 
 .sidenav-txt {

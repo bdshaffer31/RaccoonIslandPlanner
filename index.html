@@ -16,6 +16,10 @@
         <h2 class="title">Raccoon Island Planner</h2>
       </div-->
       <div>
+        <button id="zoomIn" onclick="zoomIn(event)">+</button>
+        <button id="zoomOut" onclick="zoomOut(event)">-</button>
+      </div>
+      <div>
         <div class="sidenav-txt" id="tool-display">paint</div>
         <button class="dropbtn" id="sel-paint-tool" onclick="selectTool('paint')">Paint</button>
         <button class="dropbtn" id="sel-paint-tool" onclick="selectTool('place')">Place</button>
@@ -135,10 +139,7 @@
       <!--h3 id="coords">coords go here</h3>
       <h3 id="grid_num">grid num goes here</h3>
       <h3 id="mouse_pos">mouse pos goes here</h3-->
-      <div>
-        <button id="zoomIn" onclick="zoomIn(event)">+</button>
-        <button id="zoomOut" onclick="zoomOut(event)">-</button>
-      </div>
+      
       <canvas id="map_frame" width="896 " height="768">
       </canvas>
     </div>
