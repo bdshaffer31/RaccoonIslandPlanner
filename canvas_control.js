@@ -9,7 +9,9 @@ var GRIDROWS = 96;
 var gridOn = true;
 var pixelArray = [];
 var spriteArray = new Array(10752)
-activeTool = "paint"
+var activeTool = "paint"
+var mapWidth = res * GRIDCOLUMNS;
+var mapHeight = res * GRIDROWS;
 
 
 // old greens "#1dff05","#14b204", "#2a4a27",
@@ -40,7 +42,7 @@ function draw() {
     drawIsland();
     
     drawPixelArray(pixelArray);
-    drawGrid(ctx)
+    drawBigGrid()
     //drawTestImages(ctx)
     drawColorBar();
   }
@@ -59,8 +61,11 @@ function showCoords(event) {
 function drawPixelArray(pixelArray){
   for (var j = 0; j < GRIDROWS; j++){
     for(var i = 0; i < GRIDCOLUMNS; i++){
-      drawColor(i, j, pixelArray[j * GRIDCOLUMNS + i])
+      drawColor(i, j, pixelArray[j * GRIDCOLUMNS + i]);
     }
+  }
+  if (gridOn == true){
+    drawBigGrid();
   }
 }
 
@@ -132,11 +137,17 @@ function setupListeners(canvas){
       this.addEventListener("mousemove", mouseMoveFunction);
     } else if (activeTool == 'place'){
       var gridVals = relativeGridPos(event)
-      var canvas = document.getElementById('map_frame');
-      var ctx = canvas.getContext('2d');
       //var img = document.getElementById(selectedImage);
       //ctx.drawImage(img, gridVals["x"] * res, gridVals["y"] * res);
       placeImage(gridVals["x"], gridVals["y"], imgDict[selectedImage]);
+    } else if (activeTool == "remove"){
+      var gridVals = relativeGridPos(event)
+      index = gridVals["x"] + gridVals["y"] * GRIDCOLUMNS
+      if (spriteArray[index] === undefined){
+      } else {
+        spriteArray[index] = undefined
+        redraw()
+      }
     }
 
   });
@@ -179,6 +190,7 @@ function selectColor(event){
   colorNum = x + 3 *y
   brushColor = colorBar[colorNum]
   document.getElementById("sel_color").style.backgroundColor = colorBar[colorNum];
+  selectTool("paint")
 }
 
 function brushSizeUp(event){
@@ -193,10 +205,35 @@ function brushSizeDown(event){
   document.getElementById("brush_disp").innerHTML = brushSize;
 }
 
+function zoomIn(event){
+  var canvas = document.getElementById('map_frame');
+  res = res + 2
+  mapWidth = res * GRIDCOLUMNS
+  mapHeight = res * GRIDROWS
+  canvas.width = mapWidth;
+  canvas.height = mapHeight;
+  
+  redraw()
+}
+
+function zoomOut(event){
+  var canvas = document.getElementById('map_frame');
+  if (res > 2){
+    res = res - 2
+    mapWidth = res * GRIDCOLUMNS
+    mapHeight = res * GRIDROWS
+    canvas.width = mapWidth;
+    canvas.height = mapHeight;
+    redraw()
+  }
+}
+
 function setSelectedImage(event, name){
   var id = event.target.id;
   selectedImage = id;
   document.getElementById("sel_img").innerHTML = id;
+  // put the tool to place
+  selectTool("place")
 }
 
 function setupSpriteListeners(){
@@ -220,6 +257,10 @@ function download(){
 
 function toggleGrid(){
   gridOn = !gridOn
+  redraw()
+}
+
+function redraw(){
   drawPixelArray(pixelArray)
   drawSpriteArray(spriteArray)
 }
@@ -259,20 +300,11 @@ function drawIsland(){
   }
 }
 
-function drawGrid(ctx) {
-  ctx.lineWidth = 1;
-  ctx.strokeStyle = outlineGrey;
-  for (var i = 0; i < GRIDCOLUMNS; i++){ 
-    for (var j=0; j < GRIDROWS; j++){
-      ctx.beginPath();
-      var xPos = res * i;
-      var yPos = res * j;
-      ctx.rect(xPos, yPos, res, res);
-      ctx.stroke();
-    }
-  }
+function drawBigGrid() {
+  var canvas = document.getElementById('map_frame');
+  var ctx = canvas.getContext('2d');
   ctx.lineWidth = 2;
-  ctx.strokeStyle = "#808080";
+  ctx.strokeStyle = outlineGrey//"#808080";
   for (var i = 0; i < 7; i++){
     for (var j = 0; j < 6; j++){
       ctx.beginPath();

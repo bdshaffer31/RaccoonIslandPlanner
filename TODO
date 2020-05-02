@@ -4,3 +4,5 @@
 -variance in background fill within ranges
 -default island on load
 -show instructions
+-fix passing around ctx
+    -aka actually just pass it instead of re finding element evry time
