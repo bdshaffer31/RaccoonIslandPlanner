@@ -15,17 +15,24 @@
       <!--div class="sidenav-Title">
         <h2 class="title">Raccoon Island Planner</h2>
       </div-->
-      <div>
-        <button id="zoomIn" onclick="zoomIn(event)">+</button>
-        <button id="zoomOut" onclick="zoomOut(event)">-</button>
+      <div id="tool-menu">
+        <img class="toolbtn" id="paint-tool" src="images/icons/paintbrush.png" alt="paintbrush" onclick="selectTool('paint')">
+        <img class="toolbtn" id="stamp-tool" src="images/icons/stamp.jpg" alt="stamp" onclick="selectTool('stamp')">
+        <img class="toolbtn" id="remove-tool" src="images/icons/delete.png" alt="remove" onclick="selectTool('remove')">
+        <img class="toolbtn" id="move-tool" src="images/icons/move.png" alt="move" onclick="selectTool('move')">
       </div>
       <div>
-        <div class="sidenav-txt" id="tool-display">paint</div>
-        <button class="dropbtn" id="sel-paint-tool" onclick="selectTool('paint')">Paint</button>
+        <!--div class="sidenav-txt" id="tool-display">paint</div-->
+        <!--button class="dropbtn" id="sel-paint-tool" onclick="selectTool('paint')">Paint</button>
         <button class="dropbtn" id="sel-paint-tool" onclick="selectTool('place')">Place</button>
-        <button class="dropbtn" id="sel-paint-tool" onclick="selectTool('remove')">Remove</button>
+        <button class="dropbtn" id="sel-paint-tool" onclick="selectTool('remove')">Remove</button-->
       </div>
       <div class="sidenav-paint">
+        <div id="zoom-menu">
+          <div class="sidenav-txt">Zoom</div>
+          <button class="updown-btn" id="zoomIn" onclick="zoomIn(event)">+</button>
+          <button class="updown-btn" id="zoomOut" onclick="zoomOut(event)">-</button>
+        </div>
         <div>
           <div>
             <canvas id="color_bar" width="72" height="96" onclick="selectColor(event)"></canvas>
@@ -37,8 +44,8 @@
             <span class="sidenav-txt" id="brush_disp">2</span>
           </div>
           <div>
-            <button class="brush-btn" id="brush_up" onclick="brushSizeUp(event)">+</button>
-            <button class="brush-btn" id="brush_down" onclick="brushSizeDown(event)">-</button>
+            <button class="updown-btn" id="brush_up" onclick="brushSizeUp(event)">+</button>
+            <button class="updown-btn" id="brush_down" onclick="brushSizeDown(event)">-</button>
           </div>
           
         </div>

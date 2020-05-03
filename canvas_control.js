@@ -135,7 +135,7 @@ function setupListeners(canvas){
       var gridVals = relativeGridPos(event)
       paintColor(gridVals["x"], gridVals["y"], brushColor)
       this.addEventListener("mousemove", mouseMoveFunction);
-    } else if (activeTool == 'place'){
+    } else if (activeTool == 'stamp'){
       var gridVals = relativeGridPos(event)
       //var img = document.getElementById(selectedImage);
       //ctx.drawImage(img, gridVals["x"] * res, gridVals["y"] * res);
@@ -233,7 +233,7 @@ function setSelectedImage(event, name){
   selectedImage = id;
   document.getElementById("sel_img").innerHTML = id;
   // put the tool to place
-  selectTool("place")
+  selectTool('stamp')
 }
 
 function setupSpriteListeners(){
@@ -245,7 +245,12 @@ function setupSpriteListeners(){
 
 function selectTool(toolName){
   activeTool = toolName
-  document.getElementById("tool-display").innerHTML = toolName;
+  //document.getElementById("tool-display").innerHTML = toolName;
+  var toolBtns = document.getElementsByClassName("toolbtn")
+  for (var i = 0; i < toolBtns.length; i++) {
+    toolBtns[i].style.border = "3px solid #000000"
+  }
+  document.getElementById(toolName + "-tool").style.border = "3px solid #4CAF50"
 }
 
 function download(){

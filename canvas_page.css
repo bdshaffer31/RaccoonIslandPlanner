@@ -52,7 +52,7 @@
   margin-left: 44px;
 }
 
-.brush-btn {
+.updown-btn {
   background-color: #4CAF50;
   width: 33px;
   height: 33px;
@@ -61,6 +61,17 @@
   margin-top: 10px;
   font-size: 16px;
   border: none;
+}
+
+.toolbtn {
+  width: 30px;
+  height: 30px;
+  filter: brightness(70%);
+  border: 3px solid #000000;
+}
+
+.toolbtn:hover {
+  filter: brightness(100%);
 }
 
 #sel_img {
