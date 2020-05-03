@@ -74,6 +74,10 @@
   filter: brightness(100%);
 }
 
+#paint-tool {
+  border: 3px solid #4CAF50;
+}
+
 #sel_img {
   margin-top: 10px;
   margin-left: 30px;
