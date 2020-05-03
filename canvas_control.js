@@ -319,7 +319,7 @@ function drawBigGrid() {
   var canvas = document.getElementById('map_frame');
   var ctx = canvas.getContext('2d');
   ctx.lineWidth = 3;
-  ctx.strokeStyle = outlineGrey//"#808080";
+  ctx.strokeStyle = outlineGrey
   for (var i = 0; i < 7; i++){
     for (var j = 0; j < 6; j++){
       ctx.beginPath();
@@ -327,7 +327,6 @@ function drawBigGrid() {
       var yPos = res * 16 * j;
       ctx.rect(xPos, yPos, res * 16, res * 16);
       ctx.stroke();
-      //ctx.drawImage(img, xPos * res, yPos * res);
     }
   }
   drawGridLabels()

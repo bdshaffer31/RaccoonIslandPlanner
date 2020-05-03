@@ -6,3 +6,6 @@
 -show instructions
 -fix passing around ctx
     -aka actually just pass it instead of re finding element evry time
+-'are you sure' pop up on reset map click
+-fix when mouse is dragged off canvas pan continues
+-side pop outs on buttons (instead of down)
