@@ -1,32 +1,70 @@
+* {
+  /* applies to everything */
+  font-family: 'Montserrat', sans-serif;
+}
+
+
+@media (max-width: 1060px) {
+  .sidenav {
+    width: 100%;
+    height: 70px;
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    bottom: 0; /* Stay at the top */
+    background-color: #111; /* Black */
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 20px;
+  }
+  
+  .main {
+    /* margin: auto; */
+    margin-bottom: 70px; /* Same as the width of the sidebar */
+    padding: 0px 10px;
+    float: left;
+    overflow:scroll;
+    width: 100%;
+    height: 780px;
+    /*background-image: url(images/backgrounds/NFgg7UA.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;*/
+  }
+}
+
+@media (min-width: 1060px) {
+  .sidenav {
+    height: 100%; /* Full-height: remove this if you want "auto" height */
+    width: 160px; /* Set the width of the sidebar */
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    background-color: #111; /* Black */
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 20px;
+  }
+  
+  .main {
+    /* margin: auto; */
+    margin-left: 160px; /* Same as the width of the sidebar */
+    padding: 0px 10px;
+    float: left;
+    overflow:scroll;
+    width: 900px;
+    height: 780px;
+    /*background-image: url(images/backgrounds/NFgg7UA.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;*/
+  }
+}
+
+button {
+  border-radius: 8px;
+  background-color: #20b2aa;
+}
+
 .row:after {
   content: "";
   display: table;
   clear: both;
-}
-
-.sidenav {
-  height: 100%; /* Full-height: remove this if you want "auto" height */
-  width: 160px; /* Set the width of the sidebar */
-  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-  z-index: 1; /* Stay on top */
-  top: 0; /* Stay at the top */
-  left: 0;
-  background-color: #111; /* Black */
-  overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 20px;
-}
-
-.main {
-  /* margin: auto; */
-  margin-left: 160px; /* Same as the width of the sidebar */
-  padding: 0px 10px;
-  float: left;
-  overflow:scroll;
-  width: 900px;
-  height: 780px;
-  /*background-image: url(images/backgrounds/NFgg7UA.png);
-  background-repeat: no-repeat;
-  background-size: 100% 100%;*/
 }
 
 .left {
@@ -53,13 +91,12 @@
 }
 
 .updown-btn {
-  background-color: #4CAF50;
   width: 33px;
   height: 33px;
   color: white;
   padding: 10px;
   margin-top: 10px;
-  font-size: 16px;
+  font-size: 22px;
   border: none;
 }
 
@@ -75,7 +112,7 @@
 }
 
 #paint-tool {
-  border: 3px solid #4CAF50;
+  border: 3px solid #20b2aa;
 }
 
 #sel_img {
@@ -93,7 +130,7 @@
 }
 
 .dropbtn {
-  background-color: #4CAF50;
+  background-color: #20b2aa;
   width: 100px;
   color: white;
   padding: 6px;
@@ -128,4 +165,6 @@
 
 .dropdown:hover .dropdown-content {display: block;}
 
-.dropdown:hover .dropbtn {background-color: #3e8e41;}
+.dropdown:hover .dropbtn {filter: brightness(70%);}
+
+.updown-btn:hover {filter: brightness(70%);}

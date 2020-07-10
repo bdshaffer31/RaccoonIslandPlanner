@@ -10,6 +10,7 @@ var gridOn = true;
 var pixelArray = [];
 var spriteArray = new Array(10752)
 var activeTool = "paint"
+var alternativeTool = "stamp"
 //var mapWidth = res * GRIDCOLUMNS;
 //var mapHeight = res * GRIDROWS;
 var oldMousePos = [];
@@ -35,7 +36,10 @@ function relativeGridPos(event) {
 
 function draw() {
   var canvas = document.getElementById('map_frame');
-  setupListeners(canvas);
+  setupCanvasListeners(canvas);
+  setupToolBtnListeners();
+  selectTool(activeTool)
+  selectAlternativeTool(alternativeTool)
   setupSpriteListeners();
   populateImgDict();
   if (canvas.getContext) {
@@ -76,7 +80,6 @@ function drawSpriteArray(spriteArray){
       index = y * GRIDCOLUMNS + x
       if (spriteArray[index] === undefined){
       } else{
-        console.log(spriteArray[index])
         drawImage(x, y, spriteArray[index])
       }
     }
@@ -130,47 +133,100 @@ function drawImage (xPos, yPos, url) {
   }
 }
 
-function setupListeners(canvas){
-  canvas.addEventListener("mousedown", function(event){
-    if (activeTool == 'paint') {
-      var gridVals = relativeGridPos(event)
-      paintColor(gridVals["x"], gridVals["y"], brushColor)
-      this.addEventListener("mousemove", paintMouseMove);
-      canvas.addEventListener("mouseup", function(event){
-        this.removeEventListener("mousemove", paintMouseMove);
-      });
-    } else if (activeTool == 'stamp'){
-      var gridVals = relativeGridPos(event)
-      //var img = document.getElementById(selectedImage);
-      //ctx.drawImage(img, gridVals["x"] * res, gridVals["y"] * res);
-      placeImage(gridVals["x"], gridVals["y"], imgDict[selectedImage]);
-    } else if (activeTool == "remove"){
-      var gridVals = relativeGridPos(event)
-      index = gridVals["x"] + gridVals["y"] * GRIDCOLUMNS
-      if (spriteArray[index] === undefined){
-      } else {
-        spriteArray[index] = undefined
-        redraw()
-      }
-    } else if (activeTool == "move") {
-      oldMousePos = relativePos(event)
-      this.addEventListener("mousemove", panMouseMove);
-      canvas.addEventListener("mouseup", function(event){
-        this.removeEventListener("mousemove", panMouseMove);
-      });
+function setupToolBtnListeners(){
+  var paintTool = document.getElementById('paint-tool');
+  var stampTool = document.getElementById('stamp-tool');
+  var removeTool = document.getElementById('remove-tool');
+  var moveTool = document.getElementById('move-tool');
+  paintTool.addEventListener("mousedown", function(event){
+    if (event.button == 0) {
+      selectTool("paint")
+    } else if (event.button == 2){
+      selectAlternativeTool("paint")
     }
-
   });
-  
-  
+  stampTool.addEventListener("mousedown", function(event){
+    if (event.button == 0) {
+      selectTool("stamp")
+    } else if (event.button == 2){
+      selectAlternativeTool("stamp")
+    }
+  });
+  removeTool.addEventListener("mousedown", function(event){
+    if (event.button == 0) {
+      selectTool("remove")
+    } else if (event.button == 2){
+      selectAlternativeTool("remove")
+    }
+  });
+  moveTool.addEventListener("mousedown", function(event){
+    if (event.button == 0) {
+      selectTool("move")
+    } else if (event.button == 2){
+      selectAlternativeTool("move")
+    }
+  });
+}
+
+function setupCanvasListeners(canvas){
+  canvas.addEventListener("mousedown", function(event){
+    var gridVals = relativeGridPos(event)
+    if (event.button == 0){
+      if (activeTool == 'paint') {
+        dragPaintMouseAction(canvas, gridVals)
+      } else if (activeTool == 'stamp'){
+        placeImageMouseAction(gridVals)
+      } else if (activeTool == "remove"){
+        removeSpriteMouseAction(gridVals)
+      } else if (activeTool == "move") {
+        moveMouseAction(canvas)
+      }
+    } else if (event.button == 2){
+      if (alternativeTool == 'paint') {
+        dragPaintMouseAction(canvas, gridVals)
+      } else if (alternativeTool == 'stamp'){
+        placeImageMouseAction(gridVals)
+      } else if (alternativeTool == "remove"){
+        removeSpriteMouseAction(gridVals)
+      } else if (alternativeTool == "move") {
+        moveMouseAction(canvas)
+      }
+    }
+  });
+}
+
+function dragPaintMouseAction(canvas, gridVals){
+  paintColor(gridVals["x"], gridVals["y"], brushColor)
+  canvas.addEventListener("mousemove", paintMouseMove); //canvas used to be this
+  canvas.addEventListener("mouseup", function(event){
+    canvas.removeEventListener("mousemove", paintMouseMove); //canvas used to be this
+  });
+}
+
+function placeImageMouseAction(gridVals){
+  placeImage(gridVals["x"], gridVals["y"], imgDict[selectedImage]);
+}
+
+function removeSpriteMouseAction(gridVals){
+  index = gridVals["x"] + gridVals["y"] * GRIDCOLUMNS
+  if (spriteArray[index] === undefined){
+  } else {
+    spriteArray[index] = undefined
+    redraw()
+  }
+}
+
+function moveMouseAction(canvas){
+  oldMousePos = relativePos(event)
+  canvas.addEventListener("mousemove", panMouseMove);
+  canvas.addEventListener("mouseup", function(event){
+    canvas.removeEventListener("mousemove", panMouseMove);
+  });
 }
 
 function paintMouseMove(event) {
-  if (event.which == 1) {
-    console.log(event.which)
-    var vals = relativeGridPos(event);
-    paintColor(vals["x"], vals["y"], brushColor)
-  }
+  var vals = relativeGridPos(event);
+  paintColor(vals["x"], vals["y"], brushColor)
 }
 
 function panMouseMove(event) {
@@ -255,15 +311,24 @@ function setupSpriteListeners(){
 
 function selectTool(toolName){
   activeTool = toolName
-  //document.getElementById("tool-display").innerHTML = toolName;
+  toolBorders()
+}
+
+function selectAlternativeTool(toolName){
+  alternativeTool = toolName
+  toolBorders()
+}
+
+function toolBorders(){
   var toolBtns = document.getElementsByClassName("toolbtn")
   for (var i = 0; i < toolBtns.length; i++) {
     toolBtns[i].style.border = "3px solid #000000"
   }
-  document.getElementById(toolName + "-tool").style.border = "3px solid #4CAF50"
+  document.getElementById(alternativeTool + "-tool").style.border = "3px solid #90ff84"
+  document.getElementById(activeTool + "-tool").style.border = "3px solid #20b2aa"
 }
 
-function download(){
+function downloadMap(){
   var download = document.getElementById("download");
   var image = document.getElementById("map_frame").toDataURL("image/png")
               .replace("image/png", "image/octet-stream");

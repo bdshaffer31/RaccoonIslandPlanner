@@ -5,21 +5,22 @@
     <title>Map Builder</title>
     <script src='canvas_control.js'></script>
     <link rel="stylesheet" href="canvas_page.css">
-    <style type="text/css">
+    <style type="text/css"></style>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
       
-    </style>
+    
   </head>
 
-  <body onload="draw();" oncontextmenu="return false;">
+  <body onload="draw();">
     <div class="sidenav" id="left-sidebar">
       <!--div class="sidenav-Title">
         <h2 class="title">Raccoon Island Planner</h2>
       </div-->
-      <div id="tool-menu">
-        <img class="toolbtn" id="paint-tool" src="images/icons/paintbrush.png" alt="paintbrush" onclick="selectTool('paint')">
-        <img class="toolbtn" id="stamp-tool" src="images/icons/stamp.jpg" alt="stamp" onclick="selectTool('stamp')">
-        <img class="toolbtn" id="remove-tool" src="images/icons/delete.png" alt="remove" onclick="selectTool('remove')">
-        <img class="toolbtn" id="move-tool" src="images/icons/move.png" alt="move" onclick="selectTool('move')">
+      <div id="tool-menu" oncontextmenu="return false;">
+        <img class="toolbtn" id="paint-tool" src="images/icons/paintbrush.png" alt="paintbrush">
+        <img class="toolbtn" id="stamp-tool" src="images/icons/stamp.jpg" alt="stamp">
+        <img class="toolbtn" id="remove-tool" src="images/icons/delete.png" alt="remove">
+        <img class="toolbtn" id="move-tool" src="images/icons/move.png" alt="move">
       </div>
       <div>
         <!--div class="sidenav-txt" id="tool-display">paint</div-->
@@ -30,8 +31,8 @@
       <div class="sidenav-paint">
         <div id="zoom-menu">
           <div class="sidenav-txt">Zoom</div>
-          <button class="updown-btn" id="zoomIn" onclick="zoomIn(event)">+</button>
-          <button class="updown-btn" id="zoomOut" onclick="zoomOut(event)">-</button>
+          <button class="updown-btn" id="zoomIn" onclick="zoomIn(event)"><strong>+</strong></button>
+          <button class="updown-btn" id="zoomOut" onclick="zoomOut(event)"><strong>-</strong></button>
         </div>
         <div>
           <div>
@@ -44,8 +45,8 @@
             <span class="sidenav-txt" id="brush_disp">2</span>
           </div>
           <div>
-            <button class="updown-btn" id="brush_up" onclick="brushSizeUp(event)">+</button>
-            <button class="updown-btn" id="brush_down" onclick="brushSizeDown(event)">-</button>
+            <button class="updown-btn" id="brush_up" onclick="brushSizeUp(event)"><strong>+</strong></button>
+            <button class="updown-btn" id="brush_down" onclick="brushSizeDown(event)"><strong>-</strong></button>
           </div>
           
         </div>
@@ -133,11 +134,11 @@
         <div class="dropdown" id="buidlings-drop">
           <button class="dropbtn">Options</button>
           <div class="dropdown-content">
-            <a id="download" download="image.png">
-              <a type="button" onclick="download()">Download Map</a>
-            </a>
             <a onclick="toggleGrid()">Toggle Grid</a>
             <a onclick="resetMap()">Reset Map</a>
+            <a id="download" download="image.png">
+              <a type="button" onclick="downloadMap()">Download Map</a>
+            </a>
           </div>
         </div>
       </div>
@@ -147,7 +148,7 @@
       <h3 id="grid_num">grid num goes here</h3>
       <h3 id="mouse_pos">mouse pos goes here</h3-->
       
-      <canvas id="map_frame" width="896 " height="768">
+      <canvas id="map_frame" width="896 " height="768" oncontextmenu="return false;">
       </canvas>
     </div>
     
